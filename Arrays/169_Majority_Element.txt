@@ -22,7 +22,8 @@ n == nums.length
 Approach = Increment count when same element occurs again which is saved eariler and decrement the count when different number occurs. When count is zero add number which is come during iteration.
 In this way, only those element whose count is highest will remain and we can return that array.
 
-Space and Time complexity : N
+Time complexity : N
+Space complexity : 1
 
 */
 
