@@ -1,0 +1,44 @@
+/*
+
+Given an array nums of size n, return the majority element.
+
+The majority element is the element that appears more than Floor of n / 2 times. You may assume that the majority element always exists in the array.
+
+Example 1:
+
+Input: nums = [3,2,3]
+Output: 3
+Example 2:
+
+Input: nums = [2,2,1,1,1,2,2]
+Output: 2
+
+Constraints:
+
+n == nums.length
+1 <= n <= 5 * 104
+-109 <= nums[i] <= 109
+
+Approach = Increment count when same element occurs again which is saved eariler and decrement the count when different number occurs. When count is zero add number which is come during iteration.
+In this way, only those element whose count is highest will remain and we can return that array.
+
+Space and Time complexity : N
+
+*/
+
+class Solution {
+    public int majorityElement(int[] nums) {
+        int element = -1;
+        int count = 0;
+        
+        for (int num : nums) {
+            if (count == 0) {
+                element = num;
+            }
+            
+            count += (element == num) ? 1 : -1;
+        }
+        
+        return element;
+    }
+}
