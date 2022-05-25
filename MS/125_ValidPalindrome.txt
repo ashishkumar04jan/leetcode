@@ -1,0 +1,66 @@
+https://leetcode.com/problems/valid-palindrome/
+
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string s, return true if it is a palindrome, or false otherwise.
+
+Example 1:
+Input: s = "A man, a plan, a canal: Panama"
+Output: true
+Explanation: "amanaplanacanalpanama" is a palindrome.
+
+Example 2:
+Input: s = "race a car"
+Output: false
+Explanation: "raceacar" is not a palindrome.
+
+Constraints:
+
+1 <= s.length <= 2 * 105
+s consists only of printable ASCII characters.
+
+Approach : First remove all special characters from String then check for even and odd length of string.
+we need to take two variable and compare from middle if they are equal then proceed otherwise return false.
+If String is even then left =mid-1 and right = mid and if it is odd then left=mid-1 and right= mid+1
+
+
+class Solution {
+    public boolean isPalindrome(String s) {
+        
+        boolean result = false;
+        
+		s = s.replaceAll("[^a-zA-Z0-9]+", "").trim().toLowerCase();
+        if(s.length()==0)
+            return true;
+		
+		if (s.length() == 1)
+			return true;
+
+		int reminder = s.length() % 2;
+		int mid = s.length() / 2;
+		int left, right = 0;
+		if (reminder == 0) {
+			left = mid - 1;
+			right = mid;
+		} else {
+			left = mid - 1;
+			right = mid + 1;
+		}
+		while (true) {
+			if (s.charAt(left) == s.charAt(right)) {
+				if (left == 0 && right == s.length() - 1)
+					return true;
+				left--;
+				right++;
+			} else {
+				result = false;
+				break;
+			}
+
+		}
+
+		return result;
+        
+    }
+}
+
