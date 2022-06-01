@@ -1,0 +1,81 @@
+https://leetcode.com/problems/product-of-array-except-self/
+
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+
+
+Input: nums = [1,2,3,4]
+Output: [24,12,8,6]
+
+Input: nums = [-1,1,0,-3,3]
+Output: [0,0,9,0,0]
+
+Constraints:
+
+2 <= nums.length <= 105
+-30 <= nums[i] <= 30
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+
+Approach : Make leftProduct array in which product of all elements from left to that index is stored. Also make RightArray in which product of all 
+right hand side from that index is stored.
+
+Now for boundary of output array.
+Output[0]= rightArr[1];
+Output[n-1]= leftArr[n-2];
+
+for other elements, it will be leftArr[i-1] * rightArr[i+1]
+
+Solution
+
+
+public class ProductofArrayExceptSelf {
+
+	public static void main(String[] args) {
+		int arr[] = { 1, 2, 3, 4 };
+
+		int output[] = productExceptSelf(arr);
+
+		for (int a : output) {
+			System.out.print(a + " ");
+		}
+
+		System.out.println();
+
+	}
+
+	public static int[] productExceptSelf(int[] nums) {
+
+		int leftArr[] = new int[nums.length];
+		int rightArr[] = new int[nums.length];
+
+		int output[] = new int[nums.length];
+
+		leftArr[0] = nums[0];
+
+		for (int i = 1; i < leftArr.length; i++) {
+			leftArr[i] = leftArr[i - 1] * nums[i];
+		}
+
+		rightArr[rightArr.length - 1] = nums[nums.length - 1];
+
+		for (int i = rightArr.length - 2; i >= 0; i--) {
+			rightArr[i] = rightArr[i + 1] * nums[i];
+		}
+
+		output[0] = rightArr[1];
+
+		output[nums.length - 1] = leftArr[nums.length - 2];
+
+		for (int i = 1; i < output.length - 1; i++) {
+			output[i] = leftArr[i - 1] * rightArr[i + 1];
+		}
+
+		return output;
+
+	}
+
+}
