@@ -1,0 +1,119 @@
+Input : grid =[[1,1,0,1,1],
+			   [1,0,0,0,0],
+			   [0,0,0,0,1],
+			   [1,1,0,1,1]]
+Output :3
+
+Input : grid =[[1,1,0,0,0],
+			   [1,1,0,0,0],
+			   [0,0,0,1,1],
+			   [0,0,0,1,1]]
+Output :1
+Approach : It is extension for problem in which we need to find different island.
+Distinct means that we need to identify differnet island which are not similar in shape.
+
+In order to find distint, we are passing StringBuild and adding value after subtracting from baseCol and baseRow value
+for example
+
+
+[1,1,0,1,1],
+[1,0,0,0,0],
+[0,0,0,0,1],
+[1,1,0,1,1]
+baseRow=0 baseCol=0
+for (0,0) it is 0-0,0-0 which is 0,0
+for (0,1) it is 0-0,1-0 which is 0,1
+for (1,0) it is 1-0,0-0 which is 1,0
+
+Now String for this will be 000110
+
+baseRow=0 baseCol=3
+for (0,3) it is 0-0,3-3 which is 0,0
+for (0,4) it is 0-0,4-3 which is 0,1
+Now String for this will be 0001
+
+
+baseRow=3 baseCol=0
+for (3,0) it is 3-3,0-0 which is 0,0
+for (3,1) it is 3-3,1-0 which is 0,1
+Now String for this will be 0001
+
+baseRow=2 baseCol=4
+for(2,4) it is 2-2,4-4 which is 0,0
+for(3,4) it is 3-2,4-4 which is 1,0
+for(3,3) it is 3-2,3-4 which is 1,-1
+
+Now String for this will be 00101-1
+
+
+Now you can see only three distint string we got.
+
+Then we are adding it to HashSet So that only different String will add. Doing this we can find the distint island
+
+
+public class Number_of_Islands {
+	static int baseCol = 0, baseRow = 0;
+	static int originalArr[][];
+	static int row, col;
+
+	public static void main(String[] args) {
+		int arr[][] = { { 1, 1, 0, 1, 1 }, { 1, 0, 0, 0, 0 }, { 0, 0, 0, 0, 1 }, { 1, 1, 0, 1, 1 } };
+
+		int numberOfDistinctIsland = checkNumberofDistinctIsland(arr);
+
+		System.out.println(numberOfDistinctIsland);
+	}
+
+	private static int checkNumberofDistinctIsland(int[][] arr) {
+		
+		originalArr = arr;
+		row = arr.length;
+		col = arr[0].length;
+		HashSet<String> hashSet = new HashSet<String>();
+
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < col; j++) {
+				if (originalArr[i][j] == 0) {
+					continue;
+				}
+
+				StringBuilder sb = new StringBuilder();
+				baseCol = j;
+				baseRow = i;
+				dfs(i, j, sb);
+				//Need to convert it to String as StringBuilder object can be different for same value and string is primitive type which is immutable
+				hashSet.add(sb.toString());
+
+			}
+		}
+
+		return hashSet.size();
+	}
+
+	private static void dfs(int i, int j, StringBuilder sb) {
+
+		if (checkOutOfBoundary(i, j))
+			return;
+
+		if (originalArr[i][j] == 0)
+			return;
+
+		sb.append(i - baseRow);
+		sb.append(j - baseCol);
+
+		originalArr[i][j] = 0;
+
+		dfs(i + 1, j, sb);
+		dfs(i - 1, j, sb);
+		dfs(i, j + 1, sb);
+		dfs(i, j - 1, sb);
+
+	}
+
+	private static boolean checkOutOfBoundary(int i, int j) {
+		if (i < 0 || j < 0 || i == row || j == col)
+			return true;
+		return false;
+	}
+
+}
